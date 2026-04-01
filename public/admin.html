@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理面板</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f8f9fc;
+      --card: #ffffff;
+      --border: #e8ecf1;
+      --text: #1a1d23;
+      --text-secondary: #6b7280;
+      --accent: #4f6ef7;
+      --accent-light: #eef1fe;
+      --danger: #ef4444;
+      --danger-light: #fef2f2;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.06);
+      --radius: 16px;
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 32px;
+    }
+
+    /* ========== Top Bar ========== */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 36px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .topbar-left h1 {
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .topbar-left p {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 14px;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 24px;
+      text-align: center;
+      min-width: 130px;
+      box-shadow: var(--shadow-sm);
+    }
+    .stat-card .number {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-card .label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-top: 6px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========== Controls ========== */
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 220px;
+      max-width: 400px;
+      padding: 12px 16px 12px 42px;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text);
+      outline: none;
+      transition: all 0.25s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 14px center;
+    }
+    .search-box:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(79, 110, 247, 0.08);
+    }
+
+    .refresh-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      color: var(--text);
+    }
+    .refresh-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ========== Grid ========== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 1200px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 960px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 420px) { .grid { grid-template-columns: 1fr; } }
+
+    /* ========== Submission Card ========== */
+    .sub-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+      animation: cardIn 0.4s ease both;
+    }
+    .sub-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--accent);
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .sub-card .card-name {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sub-card .card-name .gender-icon {
+      font-size: 13px;
+    }
+    .sub-card .card-school {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sub-card .card-msg {
+      flex: 1;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+    }
+    .sub-card .card-time {
+      font-size: 11px;
+      color: #b0b8c4;
+      margin-top: 8px;
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+    }
+
+    /* ========== Detail Modal ========== */
+    .detail-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.25);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .detail-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .detail-card {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 40px;
+      width: 92%;
+      max-width: 560px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+      transform: translateY(30px) scale(0.96);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0;
+    }
+    .detail-overlay.active .detail-card {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .detail-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .detail-header h2 {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .detail-header .sub-id {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .detail-close {
+      width: 40px; height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 18px;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+    }
+    .detail-close:hover {
+      background: #fee2e2;
+      color: #ef4444;
+      border-color: #fecaca;
+    }
+
+    .detail-row {
+      margin-bottom: 20px;
+    }
+    .detail-row .detail-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .detail-row .detail-value {
+      font-size: 15px;
+      line-height: 1.6;
+      background: var(--bg);
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      word-break: break-word;
+    }
+    .detail-row .detail-value.message-value {
+      min-height: 80px;
+      white-space: pre-wrap;
+    }
+
+    .delete-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      padding: 10px 20px;
+      background: var(--danger-light);
+      color: var(--danger);
+      border: 1px solid #fecaca;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .delete-btn:hover {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    /* ========== Empty State ========== */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-secondary);
+    }
+    .empty-state .empty-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+    .empty-state p {
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <h1>📊 管理面板</h1>
+      <p>查看和管理所有提交的表格</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="number" id="totalCount">0</div>
+        <div class="label">总提交数</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <input type="text" class="search-box" id="searchBox" placeholder="搜索名字、学校、留言..." oninput="filterCards()">
+    <button class="refresh-btn" onclick="loadData()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+      刷新
+    </button>
+  </div>
+
+  <!-- Grid -->
+  <div class="grid" id="grid"></div>
+
+  <!-- Detail Modal -->
+  <div class="detail-overlay" id="detailOverlay" onclick="handleDetailClick(event)">
+    <div class="detail-card" id="detailCard"></div>
+  </div>
+
+  <script>
+    let allData = [];
+
+    async function loadData() {
+      try {
+        const res = await fetch('/api/submissions');
+        const json = await res.json();
+        allData = json.submissions;
+        document.getElementById('totalCount').textContent = json.total;
+        renderGrid(allData);
+      } catch (err) {
+        console.error('Failed to load data:', err);
+      }
+    }
+
+    function getGenderIcon(gender) {
+      if (gender.includes('男') || gender.includes('Male')) return '♂';
+      if (gender.includes('女') || gender.includes('Female')) return '♀';
+      return '◎';
+    }
+
+    function getGenderColor(gender) {
+      if (gender.includes('男') || gender.includes('Male')) return '#3b82f6';
+      if (gender.includes('女') || gender.includes('Female')) return '#ec4899';
+      return '#8b5cf6';
+    }
+
+    function formatTime(ts) {
+      if (!ts) return '';
+      const d = new Date(ts + 'Z');
+      return d.toLocaleString('zh-CN', {
+        month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit'
+      });
+    }
+
+    function renderGrid(data) {
+      const grid = document.getElementById('grid');
+      if (data.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">📭</div>
+            <p>暂时没有任何提交</p>
+          </div>`;
+        return;
+      }
+      grid.innerHTML = data.map((item, i) => `
+        <div class="sub-card" onclick="showDetail(${item.id})" style="animation-delay: ${i * 0.05}s">
+          <div class="card-name">
+            <span class="gender-icon" style="color:${getGenderColor(item.gender)}">${getGenderIcon(item.gender)}</span>
+            ${escapeHtml(item.nickname)}
+          </div>
+          <div class="card-school">${escapeHtml(item.school)}</div>
+          <div class="card-msg">${escapeHtml(item.message)}</div>
+          <div class="card-time">${formatTime(item.created_at)}</div>
+        </div>
+      `).join('');
+    }
+
+    function filterCards() {
+      const q = document.getElementById('searchBox').value.toLowerCase().trim();
+      if (!q) return renderGrid(allData);
+      const filtered = allData.filter(item =>
+        item.nickname.toLowerCase().includes(q) ||
+        item.school.toLowerCase().includes(q) ||
+        item.message.toLowerCase().includes(q) ||
+        item.email.toLowerCase().includes(q)
+      );
+      renderGrid(filtered);
+    }
+
+    function showDetail(id) {
+      const item = allData.find(s => s.id === id);
+      if (!item) return;
+      const card = document.getElementById('detailCard');
+      card.innerHTML = `
+        <div class="detail-header">
+          <div>
+            <h2>${escapeHtml(item.nickname)}</h2>
+            <div class="sub-id">#${item.id} · ${formatTime(item.created_at)}</div>
+          </div>
+          <button class="detail-close" onclick="closeDetail()">✕</button>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">邮箱 / Email</div>
+          <div class="detail-value">${escapeHtml(item.email)}</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">性别 / Gender</div>
+          <div class="detail-value"><span style="color:${getGenderColor(item.gender)}">${getGenderIcon(item.gender)}</span> ${escapeHtml(item.gender)}</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">学校 / School</div>
+          <div class="detail-value">${escapeHtml(item.school)}</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">留言 / Message</div>
+          <div class="detail-value message-value">${escapeHtml(item.message)}</div>
+        </div>
+        <button class="delete-btn" onclick="deleteItem(${item.id})">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          删除此条
+        </button>
+      `;
+      document.getElementById('detailOverlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDetail() {
+      document.getElementById('detailOverlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function handleDetailClick(e) {
+      if (e.target === document.getElementById('detailOverlay')) closeDetail();
+    }
+
+    async function deleteItem(id) {
+      if (!confirm('确认要删除这条提交吗？此操作不可撤销。')) return;
+      try {
+        await fetch(`/api/submissions/${id}`, { method: 'DELETE' });
+        closeDetail();
+        loadData();
+      } catch (err) {
+        alert('删除失败');
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeDetail();
+    });
+
+    // Initial load
+    loadData();
+    // Auto-refresh every 30s
+    setInterval(loadData, 30000);
+  </script>
+</body>
+</html>

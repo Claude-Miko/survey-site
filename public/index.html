@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>未来去向收集</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f8f9fc;
+      --card: #ffffff;
+      --border: #e8ecf1;
+      --text: #1a1d23;
+      --text-secondary: #6b7280;
+      --accent: #4f6ef7;
+      --accent-light: #eef1fe;
+      --accent-hover: #3b5de7;
+      --success: #10b981;
+      --success-light: #ecfdf5;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.06);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.1);
+      --radius: 16px;
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ========== Background Decoration ========== */
+    .bg-decoration {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .bg-decoration .circle {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.15;
+    }
+    .bg-decoration .circle:nth-child(1) {
+      width: 500px; height: 500px;
+      background: #4f6ef7;
+      top: -10%; right: -5%;
+      animation: floatA 20s ease-in-out infinite;
+    }
+    .bg-decoration .circle:nth-child(2) {
+      width: 400px; height: 400px;
+      background: #a78bfa;
+      bottom: -10%; left: -5%;
+      animation: floatB 25s ease-in-out infinite;
+    }
+    .bg-decoration .circle:nth-child(3) {
+      width: 300px; height: 300px;
+      background: #60a5fa;
+      top: 40%; left: 50%;
+      animation: floatC 18s ease-in-out infinite;
+    }
+
+    @keyframes floatA { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-40px, 30px); } }
+    @keyframes floatB { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, -40px); } }
+    @keyframes floatC { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-30px, -20px); } }
+
+    /* ========== Hero Section ========== */
+    .hero {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 60px 24px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      background: var(--accent-light);
+      color: var(--accent);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 28px;
+      animation: fadeInDown 0.6s ease;
+    }
+    .hero-badge .dot {
+      width: 7px; height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 18px;
+      animation: fadeInDown 0.6s ease 0.1s both;
+      background: linear-gradient(135deg, var(--text) 0%, #4f6ef7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-secondary);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+      animation: fadeInDown 0.6s ease 0.2s both;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========== CTA Button ========== */
+    .cta-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 42px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: fadeInDown 0.6s ease 0.3s both;
+      font-family: inherit;
+      overflow: hidden;
+    }
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(79, 110, 247, 0.35);
+    }
+    .cta-btn:hover::before { opacity: 1; }
+    .cta-btn:active { transform: translateY(-1px); }
+
+    .cta-btn .arrow {
+      transition: transform 0.3s;
+    }
+    .cta-btn:hover .arrow { transform: translateX(4px); }
+
+    /* ========== Modal Overlay ========== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ========== Modal Card ========== */
+    .modal-card {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 44px 40px;
+      width: 92%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(40px) scale(0.95);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.35s ease;
+      opacity: 0;
+    }
+    .modal-overlay.active .modal-card {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    .modal-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+    }
+    .close-btn {
+      width: 40px; height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 18px;
+      color: var(--text-secondary);
+    }
+    .close-btn:hover {
+      background: #fee2e2;
+      color: #ef4444;
+      border-color: #fecaca;
+    }
+
+    /* ========== Form ========== */
+    .form-group {
+      margin-bottom: 22px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      letter-spacing: 0.3px;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: 15px;
+      font-family: inherit;
+      color: var(--text);
+      transition: all 0.25s;
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--accent);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(79, 110, 247, 0.08);
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #b0b8c4;
+    }
+    .form-group textarea {
+      min-height: 130px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+    .form-group select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: inherit;
+      margin-top: 8px;
+    }
+    .submit-btn:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 6px 20px rgba(79, 110, 247, 0.3);
+    }
+    .submit-btn:active { transform: scale(0.98); }
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* ========== Success State ========== */
+    .success-state {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 20px 0;
+    }
+    .success-state.active { display: flex; }
+    .success-icon {
+      width: 72px; height: 72px;
+      background: var(--success-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .success-icon svg { color: var(--success); }
+    @keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
+    .success-state h3 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+    .success-state p {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ========== Footer ========== */
+    .footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 30px;
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    /* ========== Responsive ========== */
+    @media (max-width: 640px) {
+      .modal-card { padding: 30px 24px; }
+      .cta-btn { padding: 16px 34px; font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background decoration -->
+  <div class="bg-decoration">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      正在收集中
+    </div>
+    <h1>你的下一站是哪里？</h1>
+    <p>无论是继续深造还是踏入职场，和大家分享你的未来方向吧。每一份回复，都是一个新故事的开始。</p>
+    <button class="cta-btn" onclick="openModal()">
+      填写表格
+      <span class="arrow">→</span>
+    </button>
+  </section>
+
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+    <div class="modal-card">
+      <!-- Form State -->
+      <div id="formState">
+        <div class="modal-header">
+          <h2>📝 填写信息</h2>
+          <button class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+        <form id="surveyForm" onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label>称呼 / Nickname</label>
+            <input type="text" name="nickname" placeholder="你希望别人怎么称呼你？" required>
+          </div>
+          <div class="form-group">
+            <label>邮箱 / Email</label>
+            <input type="email" name="email" placeholder="your@email.com" required>
+          </div>
+          <div class="form-group">
+            <label>性别 / Gender</label>
+            <select name="gender" required>
+              <option value="" disabled selected>请选择</option>
+              <option value="男 / Male">男 / Male</option>
+              <option value="女 / Female">女 / Female</option>
+              <option value="其他 / Other">其他 / Other</option>
+              <option value="不愿透露 / Prefer not to say">不愿透露 / Prefer not to say</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>所读的学校 / School</label>
+            <input type="text" name="school" placeholder="你目前或即将就读的学校" required>
+          </div>
+          <div class="form-group">
+            <label>留言 / Message</label>
+            <textarea name="message" placeholder="分享你的未来计划、想法、或任何想说的话..."></textarea>
+          </div>
+          <button type="submit" class="submit-btn" id="submitBtn">提交</button>
+        </form>
+      </div>
+
+      <!-- Success State -->
+      <div class="success-state" id="successState">
+        <div class="success-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3>提交成功！</h3>
+        <p>感谢你的分享，你的回复已被记录。</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    Made with ♡
+  </footer>
+
+  <script>
+    const overlay = document.getElementById('modalOverlay');
+    const formState = document.getElementById('formState');
+    const successState = document.getElementById('successState');
+    const form = document.getElementById('surveyForm');
+
+    function openModal() {
+      formState.style.display = 'block';
+      successState.classList.remove('active');
+      form.reset();
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function handleOverlayClick(e) {
+      if (e.target === overlay) closeModal();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = '提交中...';
+
+      const data = {
+        nickname: form.nickname.value.trim(),
+        email: form.email.value.trim(),
+        gender: form.gender.value,
+        school: form.school.value.trim(),
+        message: form.message.value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        if (result.success) {
+          formState.style.display = 'none';
+          successState.classList.add('active');
+          setTimeout(closeModal, 2500);
+        } else {
+          alert(result.error || '提交失败，请重试');
+        }
+      } catch (err) {
+        alert('网络错误，请检查连接后重试');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '提交';
+      }
+    }
+  </script>
+</body>
+</html>
