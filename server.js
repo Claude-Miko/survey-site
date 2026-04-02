@@ -1,77 +1,71 @@
 const express = require('express');
 const path = require('path');
-const initSqlJs = require('sql.js');
-const fs = require('fs');
+const { Pool } = require('pg');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const DB_PATH = process.env.RENDER ? path.join('/tmp', 'submissions.db') : path.join(__dirname, 'submissions.db');
 
-let db;
+// PostgreSQL connection
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false
+});
 
 async function initDB() {
-  const SQL = await initSqlJs();
-  if (fs.existsSync(DB_PATH)) {
-    const buffer = fs.readFileSync(DB_PATH);
-    db = new SQL.Database(buffer);
-  } else {
-    db = new SQL.Database();
-  }
-  db.run(`
+  await pool.query(`
     CREATE TABLE IF NOT EXISTS submissions (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       nickname TEXT NOT NULL,
       email TEXT NOT NULL,
       gender TEXT NOT NULL,
       school TEXT NOT NULL,
       message TEXT NOT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMP DEFAULT NOW()
     )
   `);
-  saveDB();
-}
-
-function saveDB() {
-  const data = db.export();
-  const buffer = Buffer.from(data);
-  fs.writeFileSync(DB_PATH, buffer);
 }
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Submit form
-app.post('/api/submit', (req, res) => {
+app.post('/api/submit', async (req, res) => {
   const { nickname, email, gender, school, message } = req.body;
   if (!nickname || !email || !gender || !school || !message) {
     return res.status(400).json({ error: '所有栏目都必须填写' });
   }
-  db.run(
-    'INSERT INTO submissions (nickname, email, gender, school, message) VALUES (?, ?, ?, ?, ?)',
-    [nickname, email, gender, school, message]
-  );
-  saveDB();
-  res.json({ success: true, message: '提交成功！' });
+  try {
+    await pool.query(
+      'INSERT INTO submissions (nickname, email, gender, school, message) VALUES ($1, $2, $3, $4, $5)',
+      [nickname, email, gender, school, message]
+    );
+    res.json({ success: true, message: '提交成功！' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '服务器错误' });
+  }
 });
 
 // Get all submissions (admin)
-app.get('/api/submissions', (req, res) => {
-  const rows = db.exec('SELECT * FROM submissions ORDER BY created_at DESC');
-  if (rows.length === 0) return res.json({ submissions: [], total: 0 });
-  const columns = rows[0].columns;
-  const submissions = rows[0].values.map(row => {
-    const obj = {};
-    columns.forEach((col, i) => obj[col] = row[i]);
-    return obj;
-  });
-  res.json({ submissions, total: submissions.length });
+app.get('/api/submissions', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM submissions ORDER BY created_at DESC');
+    res.json({ submissions: result.rows, total: result.rows.length });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '服务器错误' });
+  }
 });
 
 // Delete a submission (admin)
-app.delete('/api/submissions/:id', (req, res) => {
-  db.run('DELETE FROM submissions WHERE id = ?', [parseInt(req.params.id)]);
-  saveDB();
-  res.json({ success: true });
+app.delete('/api/submissions/:id', async (req, res) => {
+  try {
+    await pool.query('DELETE FROM submissions WHERE id = $1', [parseInt(req.params.id)]);
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '服务器错误' });
+  }
 });
 
 // Admin page
