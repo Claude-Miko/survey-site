@@ -5,27 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>未来去向收集</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #f8f9fc;
-      --card: #ffffff;
-      --border: #e8ecf1;
-      --text: #1a1d23;
-      --text-secondary: #6b7280;
-      --accent: #4f6ef7;
-      --accent-light: #eef1fe;
-      --accent-hover: #3b5de7;
-      --success: #10b981;
-      --success-light: #ecfdf5;
-      --danger: #ef4444;
-      --danger-light: #fef2f2;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
-      --shadow-md: 0 4px 20px rgba(0,0,0,0.06);
-      --shadow-lg: 0 12px 40px rgba(0,0,0,0.1);
+      --bg: #0f0b1a;
+      --card: rgba(255,255,255,0.08);
+      --card-solid: rgba(255,255,255,0.12);
+      --card-hover: rgba(255,255,255,0.15);
+      --border: rgba(255,255,255,0.1);
+      --border-hover: rgba(255,255,255,0.25);
+      --text: #f0eef5;
+      --text-secondary: rgba(255,255,255,0.55);
+      --accent: #a78bfa;
+      --accent-light: rgba(167,139,250,0.15);
+      --accent-hover: #c4b5fd;
+      --success: #34d399;
+      --success-light: rgba(52,211,153,0.12);
+      --danger: #f87171;
+      --danger-light: rgba(248,113,113,0.12);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.2);
+      --shadow-md: 0 8px 30px rgba(0,0,0,0.3);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,0.4);
       --radius: 16px;
+      --glass: rgba(255,255,255,0.06);
     }
 
     body {
@@ -36,47 +40,113 @@
       overflow-x: hidden;
     }
 
-    /* ========== Background Decoration ========== */
-    .bg-decoration {
+    /* ========== Animated Gradient Background ========== */
+    .bg-gradient {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      pointer-events: none;
+      inset: 0;
       z-index: 0;
-      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 40% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 60%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
+      animation: gradientShift 20s ease-in-out infinite;
     }
-    .bg-decoration .circle {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.15;
-    }
-    .bg-decoration .circle:nth-child(1) {
-      width: 500px; height: 500px;
-      background: #4f6ef7;
-      top: -10%; right: -5%;
-      animation: floatA 20s ease-in-out infinite;
-    }
-    .bg-decoration .circle:nth-child(2) {
-      width: 400px; height: 400px;
-      background: #a78bfa;
-      bottom: -10%; left: -5%;
-      animation: floatB 25s ease-in-out infinite;
-    }
-    .bg-decoration .circle:nth-child(3) {
-      width: 300px; height: 300px;
-      background: #60a5fa;
-      top: 40%; left: 50%;
-      animation: floatC 18s ease-in-out infinite;
+    @keyframes gradientShift {
+      0%, 100% { filter: hue-rotate(0deg); }
+      50% { filter: hue-rotate(20deg); }
     }
 
-    @keyframes floatA { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-40px, 30px); } }
-    @keyframes floatB { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, -40px); } }
-    @keyframes floatC { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-30px, -20px); } }
+    /* ========== Floating Emoji Particles ========== */
+    .emoji-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .emoji-particle {
+      position: absolute;
+      bottom: -60px;
+      font-size: 28px;
+      opacity: 0;
+      animation: floatUp linear infinite;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,0.1));
+    }
+    @keyframes floatUp {
+      0% { opacity: 0; transform: translateY(0) rotate(0deg) scale(0.5); }
+      10% { opacity: 0.7; transform: translateY(-8vh) rotate(15deg) scale(1); }
+      90% { opacity: 0.5; transform: translateY(-92vh) rotate(-15deg) scale(0.9); }
+      100% { opacity: 0; transform: translateY(-105vh) rotate(-25deg) scale(0.7); }
+    }
+
+    /* ========== Floating Cards Background ========== */
+    .floating-cards-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .floating-card {
+      position: absolute;
+      bottom: -180px;
+      width: 180px;
+      padding: 16px;
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      opacity: 0;
+      animation: cardFloatUp linear infinite;
+    }
+    .floating-card .fc-emoji {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    .floating-card .fc-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .floating-card .fc-school {
+      font-size: 10px;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .floating-card .fc-msg {
+      font-size: 10px;
+      color: rgba(255,255,255,0.25);
+      line-height: 1.4;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      filter: blur(3px);
+    }
+    @keyframes cardFloatUp {
+      0% { opacity: 0; transform: translateY(0) rotate(2deg); }
+      8% { opacity: 0.6; transform: translateY(-8vh) rotate(-1deg); }
+      85% { opacity: 0.4; transform: translateY(-88vh) rotate(1deg); }
+      100% { opacity: 0; transform: translateY(-105vh) rotate(-2deg); }
+    }
+
+    /* ========== Content Layer ========== */
+    .content-layer {
+      position: relative;
+      z-index: 10;
+    }
 
     /* ========== Hero Section ========== */
     .hero {
-      position: relative;
-      z-index: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -84,7 +154,7 @@
       min-height: 100vh;
       padding: 60px 24px;
       text-align: center;
-      transition: min-height 0.5s ease;
+      transition: min-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .hero.compact {
       min-height: auto;
@@ -95,57 +165,66 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 18px;
+      padding: 10px 22px;
       background: var(--accent-light);
+      border: 1px solid rgba(167,139,250,0.2);
       color: var(--accent);
       border-radius: 100px;
       font-size: 13px;
       font-weight: 600;
       letter-spacing: 0.5px;
-      margin-bottom: 28px;
-      animation: fadeInDown 0.6s ease;
+      margin-bottom: 32px;
+      animation: fadeInDown 0.8s ease;
+      backdrop-filter: blur(10px);
     }
     .hero-badge .dot {
       width: 7px; height: 7px;
       background: var(--accent);
       border-radius: 50%;
       animation: pulse 2s ease-in-out infinite;
+      box-shadow: 0 0 8px var(--accent);
     }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
     .hero h1 {
-      font-size: clamp(2.2rem, 5vw, 3.8rem);
-      font-weight: 700;
-      line-height: 1.15;
-      margin-bottom: 18px;
-      animation: fadeInDown 0.6s ease 0.1s both;
-      background: linear-gradient(135deg, var(--text) 0%, #4f6ef7 100%);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      animation: fadeInDown 0.8s ease 0.1s both;
+      background: linear-gradient(135deg, #f0eef5 0%, #a78bfa 50%, #ec4899 100%);
+      background-size: 200% 200%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      animation: fadeInDown 0.8s ease 0.1s both, titleGradient 6s ease-in-out infinite;
+    }
+    @keyframes titleGradient {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
 
     .hero p {
-      font-size: clamp(1rem, 2vw, 1.2rem);
+      font-size: clamp(1rem, 2vw, 1.15rem);
       color: var(--text-secondary);
       max-width: 520px;
-      line-height: 1.7;
-      margin-bottom: 40px;
-      animation: fadeInDown 0.6s ease 0.2s both;
+      line-height: 1.8;
+      margin-bottom: 44px;
+      animation: fadeInDown 0.8s ease 0.2s both;
     }
 
     @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
+      from { opacity: 0; transform: translateY(-24px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ========== Button group ========== */
+    /* ========== Buttons ========== */
     .hero-buttons {
       display: flex;
       gap: 14px;
       flex-wrap: wrap;
       justify-content: center;
-      animation: fadeInDown 0.6s ease 0.3s both;
+      animation: fadeInDown 0.8s ease 0.3s both;
     }
 
     .cta-btn {
@@ -153,27 +232,28 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      padding: 18px 42px;
-      background: var(--accent);
+      padding: 18px 44px;
+      background: linear-gradient(135deg, #8b5cf6, #a78bfa);
       color: #fff;
       border: none;
-      border-radius: 14px;
+      border-radius: 16px;
       font-size: 17px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       font-family: inherit;
       overflow: hidden;
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
     }
     .cta-btn::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
       opacity: 0;
       transition: opacity 0.3s;
     }
-    .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(79, 110, 247, 0.35); }
+    .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(139, 92, 246, 0.45); }
     .cta-btn:hover::before { opacity: 1; }
     .cta-btn:active { transform: translateY(-1px); }
     .cta-btn .arrow { transition: transform 0.3s; }
@@ -184,19 +264,21 @@
       align-items: center;
       gap: 8px;
       padding: 18px 32px;
-      background: var(--card);
+      background: var(--glass);
       color: var(--text);
       border: 1.5px solid var(--border);
-      border-radius: 14px;
+      border-radius: 16px;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s;
       font-family: inherit;
+      backdrop-filter: blur(10px);
     }
     .secondary-btn:hover {
       border-color: var(--accent);
       color: var(--accent);
+      background: var(--accent-light);
       transform: translateY(-3px);
       box-shadow: var(--shadow-md);
     }
@@ -205,9 +287,9 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       z-index: 100;
       display: flex;
       align-items: center;
@@ -219,14 +301,17 @@
     .modal-overlay.active { opacity: 1; pointer-events: all; }
 
     .modal-card {
-      background: var(--card);
-      border-radius: 24px;
+      background: rgba(30, 20, 50, 0.9);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 28px;
       padding: 44px 40px;
       width: 92%;
       max-width: 520px;
       max-height: 90vh;
       overflow-y: auto;
-      box-shadow: var(--shadow-lg);
+      box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.05);
       transform: translateY(40px) scale(0.95);
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
       opacity: 0;
@@ -238,37 +323,41 @@
     .close-btn {
       width: 40px; height: 40px;
       display: flex; align-items: center; justify-content: center;
-      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 12px;
       cursor: pointer; transition: all 0.2s; font-size: 18px; color: var(--text-secondary);
     }
-    .close-btn:hover { background: #fee2e2; color: #ef4444; border-color: #fecaca; }
+    .close-btn:hover { background: var(--danger-light); color: var(--danger); border-color: rgba(248,113,113,0.3); }
 
     /* ========== Form ========== */
     .form-group { margin-bottom: 22px; }
     .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; letter-spacing: 0.3px; }
     .form-group input, .form-group textarea, .form-group select {
-      width: 100%; padding: 14px 16px; background: var(--bg); border: 1.5px solid var(--border);
+      width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.06); border: 1.5px solid var(--border);
       border-radius: 12px; font-size: 15px; font-family: inherit; color: var(--text); transition: all 0.25s; outline: none;
     }
     .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-      border-color: var(--accent); background: #fff; box-shadow: 0 0 0 4px rgba(79, 110, 247, 0.08);
+      border-color: var(--accent); background: rgba(255,255,255,0.1); box-shadow: 0 0 0 4px rgba(167,139,250,0.1);
     }
-    .form-group input::placeholder, .form-group textarea::placeholder { color: #b0b8c4; }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.25); }
     .form-group textarea { min-height: 130px; resize: vertical; line-height: 1.6; }
     .form-group select {
       cursor: pointer; appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px;
     }
+    .form-group select option { background: #1e1432; color: var(--text); }
 
     .submit-btn {
-      width: 100%; padding: 16px; background: var(--accent); color: #fff; border: none;
-      border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer;
+      width: 100%; padding: 16px;
+      background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+      color: #fff; border: none;
+      border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer;
       transition: all 0.3s; font-family: inherit; margin-top: 8px;
+      box-shadow: 0 4px 16px rgba(139,92,246,0.3);
     }
-    .submit-btn:hover { background: var(--accent-hover); box-shadow: 0 6px 20px rgba(79, 110, 247, 0.3); }
+    .submit-btn:hover { box-shadow: 0 8px 30px rgba(139,92,246,0.4); transform: translateY(-1px); }
     .submit-btn:active { transform: scale(0.98); }
-    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
     .form-error {
       display: none;
@@ -276,7 +365,7 @@
       padding: 12px 16px;
       background: var(--danger-light);
       color: var(--danger);
-      border: 1px solid #fecaca;
+      border: 1px solid rgba(248,113,113,0.2);
       border-radius: 10px;
       font-size: 13px;
       font-weight: 500;
@@ -291,6 +380,7 @@
       width: 72px; height: 72px; background: var(--success-light); border-radius: 50%;
       display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
       animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 30px rgba(52,211,153,0.2);
     }
     .success-icon svg { color: var(--success); }
     @keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
@@ -309,7 +399,7 @@
     /* ========== Browse Section ========== */
     .browse-section {
       position: relative;
-      z-index: 1;
+      z-index: 10;
       padding: 20px 0 60px;
       display: none;
       animation: fadeInUp 0.6s ease;
@@ -323,27 +413,32 @@
 
     .browse-header {
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
       padding: 0 24px;
     }
     .browse-header h2 {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 700;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, var(--text), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     .browse-header .views-left {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 16px;
+      padding: 8px 18px;
       background: var(--accent-light);
+      border: 1px solid rgba(167,139,250,0.2);
       color: var(--accent);
       border-radius: 100px;
       font-size: 13px;
       font-weight: 600;
+      backdrop-filter: blur(10px);
     }
 
-    /* Card grid for browse */
     .browse-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -353,25 +448,41 @@
       margin: 0 auto;
     }
 
-    /* Individual card */
     .browse-card {
       background: var(--card);
       border: 1.5px solid var(--border);
-      border-radius: 18px;
-      padding: 18px;
+      border-radius: 20px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: var(--shadow-sm);
       position: relative;
       overflow: hidden;
       min-height: 180px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .browse-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent);
+      border-radius: 20px;
+      opacity: 0;
+      transition: opacity 0.3s;
     }
     .browse-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--accent);
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 12px 40px rgba(139,92,246,0.15);
+      border-color: rgba(167,139,250,0.3);
+    }
+    .browse-card:hover::before { opacity: 1; }
+
+    .browse-card .card-emoji {
+      font-size: 22px;
+      margin-bottom: 8px;
     }
     .browse-card .card-name {
       font-size: 14px; font-weight: 700; margin-bottom: 4px;
@@ -379,80 +490,69 @@
     }
     .browse-card .card-name .gender-icon { font-size: 12px; }
     .browse-card .card-school {
-      font-size: 11px; color: var(--text-secondary); margin-bottom: 8px;
+      font-size: 11px; color: var(--text-secondary); margin-bottom: 6px;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .browse-card .card-time {
-      font-size: 10px; color: #b0b8c4; margin-bottom: 8px;
+      font-size: 10px; color: rgba(255,255,255,0.3); margin-bottom: 10px;
     }
     .browse-card .card-msg {
       flex: 1; font-size: 12px; color: var(--text-secondary); line-height: 1.5;
       overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;
     }
 
-    /* Blurred message (default - not yet viewed) */
     .browse-card.blurred .card-msg {
       filter: blur(5px);
       user-select: none;
       pointer-events: none;
     }
-    .browse-card.blurred {
-      background: #f9fafb;
-    }
+    .browse-card.blurred { background: rgba(255,255,255,0.04); }
     .blur-overlay {
       position: absolute;
-      bottom: 12px;
+      bottom: 14px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       align-items: center;
       gap: 4px;
-      padding: 4px 12px;
-      background: rgba(79, 110, 247, 0.08);
+      padding: 6px 14px;
+      background: var(--accent-light);
+      border: 1px solid rgba(167,139,250,0.15);
       border-radius: 100px;
       font-size: 11px;
       color: var(--accent);
       font-weight: 600;
       transition: all 0.2s;
+      backdrop-filter: blur(10px);
     }
     .browse-card.blurred:hover .blur-overlay {
-      background: rgba(79, 110, 247, 0.15);
+      background: rgba(167,139,250,0.2);
     }
 
-    /* Locked card (no views remaining) */
-    .browse-card.locked {
-      cursor: default;
-    }
-    .browse-card.locked:hover {
-      transform: none;
-      box-shadow: var(--shadow-sm);
-      border-color: var(--border);
-    }
-    .browse-card.locked .card-msg {
-      filter: blur(5px);
-      user-select: none;
-      pointer-events: none;
-    }
+    .browse-card.locked { cursor: default; }
+    .browse-card.locked:hover { transform: none; box-shadow: var(--shadow-sm); border-color: var(--border); }
+    .browse-card.locked:hover::before { opacity: 0; }
+    .browse-card.locked .card-msg { filter: blur(5px); user-select: none; pointer-events: none; }
     .lock-overlay {
       position: absolute;
-      bottom: 12px;
+      bottom: 14px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       align-items: center;
       gap: 4px;
-      padding: 4px 12px;
-      background: rgba(0,0,0,0.04);
+      padding: 6px 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
       border-radius: 100px;
       font-size: 11px;
       color: var(--text-secondary);
       font-weight: 600;
     }
 
-    /* Viewed/unlocked card */
     .browse-card.viewed {
-      border-color: var(--accent);
-      background: #fff;
+      border-color: rgba(167,139,250,0.3);
+      background: rgba(167,139,250,0.08);
     }
 
     /* ========== Pagination ========== */
@@ -461,32 +561,33 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      margin-top: 32px;
+      margin-top: 36px;
       padding: 0 24px;
     }
     .page-btn {
-      padding: 8px 16px;
-      background: var(--card);
+      padding: 10px 18px;
+      background: var(--glass);
       border: 1.5px solid var(--border);
-      border-radius: 10px;
+      border-radius: 12px;
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
       font-family: inherit;
       color: var(--text);
+      backdrop-filter: blur(10px);
     }
     .page-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .page-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .page-btn.active { background: linear-gradient(135deg, #8b5cf6, #a78bfa); color: #fff; border-color: transparent; box-shadow: 0 4px 16px rgba(139,92,246,0.3); }
+    .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
     /* ========== Detail Modal ========== */
     .detail-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.25);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       z-index: 200;
       display: flex;
       align-items: center;
@@ -498,14 +599,16 @@
     .detail-overlay.active { opacity: 1; pointer-events: all; }
 
     .detail-card {
-      background: var(--card);
-      border-radius: 24px;
+      background: rgba(30, 20, 50, 0.92);
+      backdrop-filter: blur(40px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 28px;
       padding: 40px;
       width: 92%;
       max-width: 480px;
       max-height: 85vh;
       overflow-y: auto;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+      box-shadow: var(--shadow-lg);
       transform: translateY(30px) scale(0.96);
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       opacity: 0;
@@ -516,10 +619,10 @@
     .detail-header h2 { font-size: 22px; font-weight: 700; }
     .detail-close {
       width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
-      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 12px;
       cursor: pointer; transition: all 0.2s; font-size: 18px; color: var(--text-secondary); flex-shrink: 0;
     }
-    .detail-close:hover { background: #fee2e2; color: #ef4444; border-color: #fecaca; }
+    .detail-close:hover { background: var(--danger-light); color: var(--danger); border-color: rgba(248,113,113,0.3); }
 
     .detail-row { margin-bottom: 18px; }
     .detail-row .detail-label {
@@ -527,195 +630,242 @@
       text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
     }
     .detail-row .detail-value {
-      font-size: 15px; line-height: 1.6; background: var(--bg);
+      font-size: 15px; line-height: 1.6; background: rgba(255,255,255,0.06);
       padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border); word-break: break-word;
     }
     .detail-row .detail-value.message-value { min-height: 60px; white-space: pre-wrap; }
 
     /* ========== Manage Modal ========== */
-    .manage-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 16px;
-    }
+    .manage-list { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
     .manage-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 16px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 14px 16px; background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 12px;
     }
     .manage-item-info { flex: 1; min-width: 0; }
     .manage-item-info .mi-name { font-size: 14px; font-weight: 600; }
     .manage-item-info .mi-school { font-size: 12px; color: var(--text-secondary); }
-    .manage-item-info .mi-time { font-size: 11px; color: #b0b8c4; }
+    .manage-item-info .mi-time { font-size: 11px; color: rgba(255,255,255,0.3); }
     .manage-delete-btn {
-      padding: 6px 14px;
-      background: var(--danger-light);
-      color: var(--danger);
-      border: 1px solid #fecaca;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-      flex-shrink: 0;
+      padding: 6px 14px; background: var(--danger-light); color: var(--danger);
+      border: 1px solid rgba(248,113,113,0.2); border-radius: 8px; font-size: 12px;
+      font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit; flex-shrink: 0;
     }
     .manage-delete-btn:hover { background: var(--danger); color: #fff; }
-
-    .manage-empty {
-      text-align: center;
-      padding: 30px;
-      color: var(--text-secondary);
-      font-size: 14px;
-    }
+    .manage-empty { text-align: center; padding: 30px; color: var(--text-secondary); font-size: 14px; }
 
     /* ========== Footer ========== */
-    .footer { position: relative; z-index: 1; text-align: center; padding: 30px; color: var(--text-secondary); font-size: 13px; }
+    .footer { position: relative; z-index: 10; text-align: center; padding: 30px; color: var(--text-secondary); font-size: 13px; }
+
+    /* ========== Scrollbar ========== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
 
     @media (max-width: 640px) {
-      .modal-card { padding: 30px 24px; }
+      .modal-card { padding: 30px 24px; border-radius: 24px; }
       .cta-btn { padding: 16px 34px; font-size: 15px; }
       .secondary-btn { padding: 16px 24px; font-size: 14px; }
-      .browse-grid { padding: 0 20px; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+      .browse-grid { padding: 0 16px; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); }
+      .floating-card { width: 140px; padding: 12px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="bg-decoration">
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-  </div>
+  <div class="bg-gradient"></div>
+  <div class="emoji-layer" id="emojiLayer"></div>
+  <div class="floating-cards-layer" id="floatingCardsLayer"></div>
 
-  <!-- Hero Section -->
-  <section class="hero" id="heroSection">
-    <div class="hero-badge">
-      <span class="dot"></span>
-      正在收集中
-    </div>
-    <h1>你的下一站是哪里？</h1>
-    <p>无论是继续深造还是踏入职场，和大家分享你的未来方向吧。每一份回复，都是一个新故事的开始。</p>
-    <div class="hero-buttons">
-      <button class="cta-btn" onclick="openModal()">
-        填写表格
-        <span class="arrow">→</span>
-      </button>
-      <button class="secondary-btn" onclick="openManageModal()">
-        管理我的提交
-      </button>
-    </div>
-  </section>
-
-  <!-- Browse Section (shown after submit) -->
-  <section class="browse-section" id="browseSection">
-    <div class="browse-header">
-      <h2>看看大家的去向</h2>
-      <span class="views-left" id="viewsLeft">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        剩余 <span id="viewCount">5</span> 次查阅
-      </span>
-    </div>
-    <div class="browse-grid" id="browseGrid"></div>
-    <div class="pagination" id="pagination"></div>
-  </section>
-
-  <!-- Form Modal -->
-  <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
-    <div class="modal-card">
-      <div id="formState">
-        <div class="modal-header">
-          <h2>填写信息</h2>
-          <button class="close-btn" onclick="closeModal()">✕</button>
-        </div>
-        <form id="surveyForm" onsubmit="handleSubmit(event)">
-          <div class="form-group">
-            <label>称呼 / Nickname</label>
-            <input type="text" name="nickname" placeholder="你希望别人怎么称呼你？" required>
-          </div>
-          <div class="form-group">
-            <label>邮箱 / Email</label>
-            <input type="email" name="email" placeholder="your@email.com" required>
-          </div>
-          <div class="form-group">
-            <label>性别 / Gender</label>
-            <select name="gender" required>
-              <option value="" disabled selected>请选择</option>
-              <option value="男 / Male">男 / Male</option>
-              <option value="女 / Female">女 / Female</option>
-              <option value="其他 / Other">其他 / Other</option>
-              <option value="不愿透露 / Prefer not to say">不愿透露 / Prefer not to say</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>所读的学校 / School</label>
-            <input type="text" name="school" placeholder="你目前或即将就读的学校" required>
-          </div>
-          <div class="form-group">
-            <label>留言 / Message</label>
-            <textarea name="message" placeholder="分享你的未来计划、想法、或任何想说的话..." required></textarea>
-          </div>
-          <button type="submit" class="submit-btn" id="submitBtn">提交</button>
-          <div class="form-error" id="formError"></div>
-        </form>
+  <div class="content-layer">
+    <!-- Hero Section -->
+    <section class="hero" id="heroSection">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        正在收集中
       </div>
-      <div class="success-state" id="successState">
-        <div class="success-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
-        </div>
-        <h3>提交成功！</h3>
-        <p>感谢你的分享，你的回复已被记录。</p>
-        <span class="browse-hint">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-          向下滚动查看大家的表格
+      <h1>你的下一站是哪里？</h1>
+      <p>无论是继续深造还是踏入职场，和大家分享你的未来方向吧。每一份回复，都是一个新故事的开始。</p>
+      <div class="hero-buttons">
+        <button class="cta-btn" onclick="openModal()">
+          填写表格
+          <span class="arrow">→</span>
+        </button>
+        <button class="secondary-btn" onclick="openManageModal()">
+          管理我的提交
+        </button>
+      </div>
+    </section>
+
+    <!-- Browse Section -->
+    <section class="browse-section" id="browseSection">
+      <div class="browse-header">
+        <h2>看看大家的去向 ✨</h2>
+        <span class="views-left" id="viewsLeft">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          剩余 <span id="viewCount">5</span> 次查阅
         </span>
       </div>
-    </div>
-  </div>
+      <div class="browse-grid" id="browseGrid"></div>
+      <div class="pagination" id="pagination"></div>
+    </section>
 
-  <!-- Manage My Submissions Modal -->
-  <div class="modal-overlay" id="manageOverlay" onclick="if(event.target===this)closeManageModal()">
-    <div class="modal-card">
-      <div id="manageEmailState">
-        <div class="modal-header">
-          <h2>管理我的提交</h2>
-          <button class="close-btn" onclick="closeManageModal()">✕</button>
-        </div>
-        <p style="color:var(--text-secondary); font-size:14px; margin-bottom:18px;">输入你提交时使用的邮箱，查看和删除你的表格。</p>
-        <form onsubmit="lookupMySubmissions(event)">
-          <div class="form-group">
-            <label>邮箱 / Email</label>
-            <input type="email" id="manageEmail" placeholder="your@email.com" required>
+    <!-- Form Modal -->
+    <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+      <div class="modal-card">
+        <div id="formState">
+          <div class="modal-header">
+            <h2>填写信息 ✍️</h2>
+            <button class="close-btn" onclick="closeModal()">✕</button>
           </div>
-          <button type="submit" class="submit-btn">查找我的提交</button>
-        </form>
-      </div>
-      <div id="manageListState" style="display:none;">
-        <div class="modal-header">
-          <h2>我的提交</h2>
-          <button class="close-btn" onclick="closeManageModal()">✕</button>
+          <form id="surveyForm" onsubmit="handleSubmit(event)">
+            <div class="form-group">
+              <label>称呼 / Nickname</label>
+              <input type="text" name="nickname" placeholder="你希望别人怎么称呼你？" required>
+            </div>
+            <div class="form-group">
+              <label>邮箱 / Email</label>
+              <input type="email" name="email" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+              <label>性别 / Gender</label>
+              <select name="gender" required>
+                <option value="" disabled selected>请选择</option>
+                <option value="男 / Male">男 / Male</option>
+                <option value="女 / Female">女 / Female</option>
+                <option value="其他 / Other">其他 / Other</option>
+                <option value="不愿透露 / Prefer not to say">不愿透露 / Prefer not to say</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>所读的学校 / School</label>
+              <input type="text" name="school" placeholder="你目前或即将就读的学校" required>
+            </div>
+            <div class="form-group">
+              <label>留言 / Message</label>
+              <textarea name="message" placeholder="分享你的未来计划、想法、或任何想说的话..." required></textarea>
+            </div>
+            <button type="submit" class="submit-btn" id="submitBtn">提交</button>
+            <div class="form-error" id="formError"></div>
+          </form>
         </div>
-        <p style="color:var(--text-secondary); font-size:13px; margin-bottom:8px;" id="manageInfo"></p>
-        <div class="manage-list" id="manageList"></div>
-        <button class="secondary-btn" style="margin-top:18px; width:100%; justify-content:center;" onclick="backToManageEmail()">返回</button>
+        <div class="success-state" id="successState">
+          <div class="success-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <h3>提交成功！🎉</h3>
+          <p>感谢你的分享，你的回复已被记录。</p>
+          <span class="browse-hint">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            向下滚动查看大家的表格
+          </span>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Detail Modal -->
-  <div class="detail-overlay" id="detailOverlay" onclick="if(event.target===this)closeDetail()">
-    <div class="detail-card" id="detailCard"></div>
-  </div>
+    <!-- Manage Modal -->
+    <div class="modal-overlay" id="manageOverlay" onclick="if(event.target===this)closeManageModal()">
+      <div class="modal-card">
+        <div id="manageEmailState">
+          <div class="modal-header">
+            <h2>管理我的提交</h2>
+            <button class="close-btn" onclick="closeManageModal()">✕</button>
+          </div>
+          <p style="color:var(--text-secondary); font-size:14px; margin-bottom:18px;">输入你提交时使用的邮箱，查看和删除你的表格。</p>
+          <form onsubmit="lookupMySubmissions(event)">
+            <div class="form-group">
+              <label>邮箱 / Email</label>
+              <input type="email" id="manageEmail" placeholder="your@email.com" required>
+            </div>
+            <button type="submit" class="submit-btn">查找我的提交</button>
+          </form>
+        </div>
+        <div id="manageListState" style="display:none;">
+          <div class="modal-header">
+            <h2>我的提交</h2>
+            <button class="close-btn" onclick="closeManageModal()">✕</button>
+          </div>
+          <p style="color:var(--text-secondary); font-size:13px; margin-bottom:8px;" id="manageInfo"></p>
+          <div class="manage-list" id="manageList"></div>
+          <button class="secondary-btn" style="margin-top:18px; width:100%; justify-content:center;" onclick="backToManageEmail()">返回</button>
+        </div>
+      </div>
+    </div>
 
-  <footer class="footer">Made with ♡</footer>
+    <!-- Detail Modal -->
+    <div class="detail-overlay" id="detailOverlay" onclick="if(event.target===this)closeDetail()">
+      <div class="detail-card" id="detailCard"></div>
+    </div>
+
+    <footer class="footer">Made with 💜</footer>
+  </div>
 
   <script>
+    /* ========== Emoji Particle System ========== */
+    const EMOJIS = ['🎓','📚','✨','🌟','💫','🎯','🚀','💼','🌈','⭐','🎒','📖','🏫','💡','🔮','🎵','🌸','🦋','💜','🎪','🧭','✈️','🌍','📝','🎨'];
+
+    function spawnEmoji() {
+      const layer = document.getElementById('emojiLayer');
+      const el = document.createElement('div');
+      el.className = 'emoji-particle';
+      el.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+      el.style.left = (Math.random() * 100) + '%';
+      el.style.fontSize = (20 + Math.random() * 20) + 'px';
+      el.style.animationDuration = (12 + Math.random() * 18) + 's';
+      el.style.animationDelay = '0s';
+      layer.appendChild(el);
+      setTimeout(() => el.remove(), 32000);
+    }
+
+    // Initial burst
+    for (let i = 0; i < 12; i++) {
+      setTimeout(() => spawnEmoji(), i * 400);
+    }
+    // Continuous spawning
+    setInterval(spawnEmoji, 2200);
+
+    /* ========== Floating Cards System ========== */
+    let floatingData = [];
+
+    async function loadFloatingCards() {
+      try {
+        const res = await fetch('/api/browse?page=1&limit=50');
+        const json = await res.json();
+        floatingData = json.submissions || [];
+        if (floatingData.length > 0) {
+          // Spawn initial batch
+          for (let i = 0; i < Math.min(6, floatingData.length); i++) {
+            setTimeout(() => spawnFloatingCard(), i * 1200);
+          }
+          // Continuous spawning
+          setInterval(spawnFloatingCard, 3500);
+        }
+      } catch (e) {}
+    }
+
+    function spawnFloatingCard() {
+      if (floatingData.length === 0) return;
+      const layer = document.getElementById('floatingCardsLayer');
+      const item = floatingData[Math.floor(Math.random() * floatingData.length)];
+      const cardEmojis = ['🎓','📚','🚀','💼','🌟','✨','🎯','🏫','💡','🔮'];
+
+      const el = document.createElement('div');
+      el.className = 'floating-card';
+      el.style.left = (5 + Math.random() * 85) + '%';
+      el.style.animationDuration = (20 + Math.random() * 15) + 's';
+      el.style.animationDelay = '0s';
+      el.innerHTML = `
+        <div class="fc-emoji">${cardEmojis[Math.floor(Math.random() * cardEmojis.length)]}</div>
+        <div class="fc-name">${escapeHtml(item.nickname)}</div>
+        <div class="fc-school">${escapeHtml(item.school)}</div>
+        <div class="fc-msg">${escapeHtml(item.message)}</div>
+      `;
+      layer.appendChild(el);
+      setTimeout(() => el.remove(), 38000);
+    }
+
+    loadFloatingCards();
+
+    /* ========== App Logic ========== */
     const overlay = document.getElementById('modalOverlay');
     const formState = document.getElementById('formState');
     const successState = document.getElementById('successState');
@@ -754,7 +904,6 @@
       if (e.target === overlay) closeModal();
     }
 
-    // Manage modal
     function openManageModal() {
       document.getElementById('manageEmailState').style.display = 'block';
       document.getElementById('manageListState').style.display = 'none';
@@ -822,11 +971,9 @@
         });
         const json = await res.json();
         if (json.success) {
-          // Re-fetch list
           const fakeEvent = { preventDefault: () => {} };
           document.getElementById('manageEmail').value = manageEmailCache;
           await lookupMySubmissions(fakeEvent);
-          // Refresh browse if visible
           if (browseSection.classList.contains('active')) {
             loadSubmissions(currentPage);
           }
@@ -848,9 +995,9 @@
       return '◎';
     }
     function getGenderColor(gender) {
-      if (gender.includes('男') || gender.includes('Male')) return '#3b82f6';
-      if (gender.includes('女') || gender.includes('Female')) return '#ec4899';
-      return '#8b5cf6';
+      if (gender.includes('男') || gender.includes('Male')) return '#60a5fa';
+      if (gender.includes('女') || gender.includes('Female')) return '#f472b6';
+      return '#c084fc';
     }
     function escapeHtml(str) {
       if (!str) return '';
@@ -865,6 +1012,11 @@
         month: '2-digit', day: '2-digit',
         hour: '2-digit', minute: '2-digit'
       });
+    }
+
+    const CARD_EMOJIS = ['🎓','📚','🚀','💼','🌟','✨','🎯','🏫','💡','🔮','🌸','🦋','🧭','✈️','🌍'];
+    function getCardEmoji(id) {
+      return CARD_EMOJIS[id % CARD_EMOJIS.length];
     }
 
     async function handleSubmit(e) {
@@ -897,6 +1049,7 @@
           heroSection.classList.add('compact');
           browseSection.classList.add('active');
           loadSubmissions(1);
+          loadFloatingCards(); // Refresh floating cards
 
           setTimeout(closeModal, 2500);
         } else {
@@ -933,7 +1086,7 @@
         container.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-secondary);">暂无提交</div>';
         return;
       }
-      container.innerHTML = allSubmissions.map(item => {
+      container.innerHTML = allSubmissions.map((item, idx) => {
         const isViewed = viewedIds.has(item.id);
         const noViewsLeft = viewsRemaining <= 0;
 
@@ -950,11 +1103,12 @@
         } else {
           cardClass = 'blurred';
           clickAction = `viewCard(${item.id})`;
-          overlayHtml = `<div class="blur-overlay"><span>👁 点击查阅内容</span></div>`;
+          overlayHtml = `<div class="blur-overlay"><span>👁 点击查阅</span></div>`;
         }
 
         return `
-          <div class="browse-card ${cardClass}" onclick="${clickAction}">
+          <div class="browse-card ${cardClass}" onclick="${clickAction}" style="animation: fadeInUp 0.5s ease ${idx * 0.06}s both;">
+            <div class="card-emoji">${getCardEmoji(item.id)}</div>
             <div class="card-name">
               <span class="gender-icon" style="color:${getGenderColor(item.gender)}">${getGenderIcon(item.gender)}</span>
               ${escapeHtml(item.nickname)}
@@ -977,7 +1131,6 @@
 
       for (let i = 1; i <= totalPages; i++) {
         if (totalPages > 7) {
-          // Show first, last, and pages around current
           if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
             html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
           } else if (i === currentPage - 2 || i === currentPage + 2) {
@@ -1013,7 +1166,7 @@
       const card = document.getElementById('detailCard');
       card.innerHTML = `
         <div class="detail-header">
-          <h2>${escapeHtml(item.nickname)}</h2>
+          <h2>${getCardEmoji(item.id)} ${escapeHtml(item.nickname)}</h2>
           <button class="detail-close" onclick="closeDetail()">✕</button>
         </div>
         <div class="detail-row">
