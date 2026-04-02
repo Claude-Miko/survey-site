@@ -216,13 +216,18 @@
       box-shadow: var(--shadow-md);
       border-color: var(--accent);
     }
-    .browse-card.locked .card-content {
+    .browse-card .card-content {
+      position: relative;
+      flex: 1;
+      overflow: hidden;
+    }
+    .browse-card.locked .card-school,
+    .browse-card.locked .card-msg {
       filter: blur(8px);
       -webkit-filter: blur(8px);
       user-select: none;
       -webkit-user-select: none;
       transition: filter 0.5s ease;
-      pointer-events: none;
     }
     .browse-card.locked .lock-hint {
       position: absolute;
@@ -234,7 +239,7 @@
       gap: 6px;
       z-index: 2;
       background: rgba(255, 255, 255, 0.15);
-      border-radius: 18px;
+      border-radius: 12px;
       opacity: 0;
       transition: opacity 0.25s ease;
     }
@@ -259,14 +264,15 @@
     }
 
     /* Unlocked animation */
-    .browse-card.unlocking .card-content {
+    .browse-card.unlocking .card-school,
+    .browse-card.unlocking .card-msg {
       filter: blur(0px) !important;
       -webkit-filter: blur(0px) !important;
     }
-    .browse-card.unlocked .card-content {
+    .browse-card.unlocked .card-school,
+    .browse-card.unlocked .card-msg {
       filter: none;
       -webkit-filter: none;
-      pointer-events: auto;
     }
     .browse-card.unlocked {
       border-color: var(--accent);
@@ -354,7 +360,7 @@
       正在收集中
     </div>
     <h1>你的下一站是哪里？</h1>
-    <p>无论是继续深造还是踏入职场，和大家分享你的未来方向吧。每一份回复，都是一个新故事的开始。</p>
+    <p>无论是绢续深造还是踏入职场，和大家分享你的未来方向吧。每一份回复，都是一个新故事的开始。</p>
     <button class="cta-btn" onclick="openModal()">
       填写表格
       <span class="arrow">→</span>
@@ -577,20 +583,20 @@
           <div class="browse-card ${locked ? 'locked' : 'unlocked'} ${noViews ? 'no-views' : ''}"
                onclick="${noViews ? '' : `viewCard(${item.id})`}"
                data-id="${item.id}">
+            <div class="card-name">
+              <span class="gender-icon" style="color:${getGenderColor(item.gender)}">${getGenderIcon(item.gender)}</span>
+              ${escapeHtml(item.nickname)}
+            </div>
             <div class="card-content">
-              <div class="card-name">
-                <span class="gender-icon" style="color:${getGenderColor(item.gender)}">${getGenderIcon(item.gender)}</span>
-                ${escapeHtml(item.nickname)}
-              </div>
               <div class="card-school">${escapeHtml(item.school)}</div>
               <div class="card-msg">${escapeHtml(item.message)}</div>
+              ${locked ? `
+                <div class="lock-hint">
+                  <span class="hint-icon">${noViews ? '🔒' : '👆'}</span>
+                  <span class="hint-text">${noViews ? '次数已用完' : '点击查看'}</span>
+                </div>
+              ` : ''}
             </div>
-            ${locked ? `
-              <div class="lock-hint">
-                <span class="hint-icon">${noViews ? '🔒' : '👆'}</span>
-                <span class="hint-text">${noViews ? '次数已用完' : '点击查看'}</span>
-              </div>
-            ` : ''}
           </div>
         `;
       }).join('');
