@@ -1,14 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>未来去向收集</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
       --bg: #f8f9fc;
       --card: #ffffff;
@@ -26,317 +23,172 @@
       --radius: 16px;
     }
 
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* ========== Background Decoration ========== */
+    /* ===== Background Decoration ===== */
     .bg-decoration {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
+      position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0;
     }
     .bg-decoration .circle {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.15;
+      position: absolute; border-radius: 50%; opacity: 0.03; background: var(--accent);
     }
-    .bg-decoration .circle:nth-child(1) {
-      width: 500px; height: 500px;
-      background: #4f6ef7;
-      top: -10%; right: -5%;
-      animation: floatA 20s ease-in-out infinite;
-    }
-    .bg-decoration .circle:nth-child(2) {
-      width: 400px; height: 400px;
-      background: #a78bfa;
-      bottom: -10%; left: -5%;
-      animation: floatB 25s ease-in-out infinite;
-    }
-    .bg-decoration .circle:nth-child(3) {
-      width: 300px; height: 300px;
-      background: #60a5fa;
-      top: 40%; left: 50%;
-      animation: floatC 18s ease-in-out infinite;
+    .bg-decoration .circle:nth-child(1) { width: 600px; height: 600px; top: -200px; right: -100px; }
+    .bg-decoration .circle:nth-child(2) { width: 400px; height: 400px; bottom: -100px; left: -100px; }
+    .bg-decoration .circle:nth-child(3) { width: 300px; height: 300px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+    /* ===== Animations ===== */
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    @keyframes checkmark { 0% { transform: scale(0); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+    @keyframes unlockShine {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
     }
 
-    @keyframes floatA { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-40px, 30px); } }
-    @keyframes floatB { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, -40px); } }
-    @keyframes floatC { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-30px, -20px); } }
-
-    /* ========== Hero Section ========== */
+    /* ===== Hero Section ===== */
     .hero {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 60px 24px;
-      text-align: center;
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 100vh; padding: 60px 24px; text-align: center;
       transition: min-height 0.5s ease;
     }
-    .hero.compact {
-      min-height: auto;
-      padding: 50px 24px 30px;
-    }
-
+    .hero.compact { min-height: auto; padding: 50px 24px 30px; }
     .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 18px;
-      background: var(--accent-light);
-      color: var(--accent);
-      border-radius: 100px;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      margin-bottom: 28px;
-      animation: fadeInDown 0.6s ease;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 18px; background: var(--accent-light); color: var(--accent);
+      border-radius: 100px; font-size: 13px; font-weight: 600;
+      letter-spacing: 0.5px; margin-bottom: 28px; animation: fadeInDown 0.6s ease;
     }
     .hero-badge .dot {
-      width: 7px; height: 7px;
-      background: var(--accent);
-      border-radius: 50%;
-      animation: pulse 2s ease-in-out infinite;
+      width: 7px; height: 7px; background: var(--accent);
+      border-radius: 50%; animation: pulse 2s ease-in-out infinite;
     }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
     .hero h1 {
-      font-size: clamp(2.2rem, 5vw, 3.8rem);
-      font-weight: 700;
-      line-height: 1.15;
-      margin-bottom: 18px;
-      animation: fadeInDown 0.6s ease 0.1s both;
-      background: linear-gradient(135deg, var(--text) 0%, #4f6ef7 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 700;
+      line-height: 1.15; margin-bottom: 16px; animation: fadeInUp 0.6s ease 0.1s both;
     }
-
     .hero p {
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      color: var(--text-secondary);
-      max-width: 520px;
-      line-height: 1.7;
-      margin-bottom: 40px;
-      animation: fadeInDown 0.6s ease 0.2s both;
+      font-size: clamp(0.95rem, 2vw, 1.15rem); color: var(--text-secondary);
+      max-width: 520px; line-height: 1.7; margin-bottom: 36px;
+      animation: fadeInUp 0.6s ease 0.2s both;
     }
-
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ========== CTA Button ========== */
     .cta-btn {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 18px 42px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 14px;
-      font-size: 17px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      animation: fadeInDown 0.6s ease 0.3s both;
-      font-family: inherit;
-      overflow: hidden;
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 36px; background: var(--accent); color: #fff;
+      border: none; border-radius: 14px; font-size: 16px; font-weight: 600;
+      cursor: pointer; transition: all 0.3s; animation: fadeInUp 0.6s ease 0.3s both;
     }
-    .cta-btn::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(79, 110, 247, 0.35); }
-    .cta-btn:hover::before { opacity: 1; }
-    .cta-btn:active { transform: translateY(-1px); }
+    .cta-btn:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
     .cta-btn .arrow { transition: transform 0.3s; }
     .cta-btn:hover .arrow { transform: translateX(4px); }
 
-    /* ========== Modal Overlay ========== */
+    /* ===== Modal Overlay (Form) ===== */
     .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.35s ease;
+      position: fixed; inset: 0; background: rgba(0,0,0,0.25);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      z-index: 100; display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
     }
     .modal-overlay.active { opacity: 1; pointer-events: all; }
-
     .modal-card {
-      background: var(--card);
-      border-radius: 24px;
-      padding: 44px 40px;
-      width: 92%;
-      max-width: 520px;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: var(--shadow-lg);
-      transform: translateY(40px) scale(0.95);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
-      opacity: 0;
+      background: var(--card); border-radius: 24px; padding: 40px;
+      width: 92%; max-width: 480px; max-height: 85vh; overflow-y: auto;
+      box-shadow: var(--shadow-lg); transform: translateY(30px) scale(0.96);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0;
     }
     .modal-overlay.active .modal-card { transform: translateY(0) scale(1); opacity: 1; }
-
-    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
     .modal-header h2 { font-size: 22px; font-weight: 700; }
     .close-btn {
-      width: 40px; height: 40px;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
-      cursor: pointer; transition: all 0.2s; font-size: 18px; color: var(--text-secondary);
+      width: 36px; height: 36px; border: 1.5px solid var(--border);
+      border-radius: 10px; background: transparent; font-size: 16px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--text-secondary); transition: all 0.2s;
     }
-    .close-btn:hover { background: #fee2e2; color: #ef4444; border-color: #fecaca; }
+    .close-btn:hover { background: #f3f4f6; color: var(--text); }
 
-    /* ========== Form ========== */
-    .form-group { margin-bottom: 22px; }
-    .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; letter-spacing: 0.3px; }
-    .form-group input, .form-group textarea, .form-group select {
-      width: 100%; padding: 14px 16px; background: var(--bg); border: 1.5px solid var(--border);
-      border-radius: 12px; font-size: 15px; font-family: inherit; color: var(--text); transition: all 0.25s; outline: none;
+    /* ===== Form ===== */
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 12px 14px; border: 1.5px solid var(--border);
+      border-radius: 12px; font-size: 14px; font-family: inherit;
+      transition: border-color 0.2s; background: var(--bg); outline: none;
     }
-    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-      border-color: var(--accent); background: #fff; box-shadow: 0 0 0 4px rgba(79, 110, 247, 0.08);
-    }
-    .form-group input::placeholder, .form-group textarea::placeholder { color: #b0b8c4; }
-    .form-group textarea { min-height: 130px; resize: vertical; line-height: 1.6; }
-    .form-group select {
-      cursor: pointer; appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px;
-    }
-
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
+    .form-group textarea { min-height: 100px; resize: vertical; }
     .submit-btn {
-      width: 100%; padding: 16px; background: var(--accent); color: #fff; border: none;
-      border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer;
-      transition: all 0.3s; font-family: inherit; margin-top: 8px;
+      width: 100%; padding: 14px; background: var(--accent); color: #fff;
+      border: none; border-radius: 12px; font-size: 15px; font-weight: 600;
+      cursor: pointer; transition: background 0.2s;
     }
-    .submit-btn:hover { background: var(--accent-hover); box-shadow: 0 6px 20px rgba(79, 110, 247, 0.3); }
-    .submit-btn:active { transform: scale(0.98); }
+    .submit-btn:hover { background: var(--accent-hover); }
     .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    /* ========== Success State ========== */
-    .success-state { display: none; flex-direction: column; align-items: center; text-align: center; padding: 20px 0; }
-    .success-state.active { display: flex; }
+    /* ===== Success State ===== */
+    .success-state {
+      display: none; text-align: center; padding: 40px 0;
+    }
+    .success-state.active { display: block; }
     .success-icon {
-      width: 72px; height: 72px; background: var(--success-light); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
-      animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 64px; height: 64px; border-radius: 50%;
+      background: var(--success-light); display: flex;
+      align-items: center; justify-content: center;
+      margin: 0 auto 16px; font-size: 28px; animation: checkmark 0.5s ease;
     }
-    .success-icon svg { color: var(--success); }
-    @keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
-    .success-state h3 { font-size: 22px; margin-bottom: 10px; }
-    .success-state p { color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px; }
-    .success-state .browse-hint {
-      font-size: 13px; color: var(--accent); font-weight: 600;
-      display: flex; align-items: center; gap: 6px;
-      animation: bounce 1.5s ease infinite;
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
-    }
+    .success-state h2 { font-size: 22px; margin-bottom: 8px; }
+    .success-state p { color: var(--text-secondary); font-size: 14px; line-height: 1.5; }
+    .browse-hint { color: var(--accent); font-weight: 600; display: block; margin-top: 8px; }
 
-    /* ========== Browse Section (after submit) ========== */
+    /* ===== Browse Section ===== */
     .browse-section {
-      position: relative;
-      z-index: 1;
-      padding: 20px 0 60px;
-      display: none;
-      animation: fadeInUp 0.6s ease;
+      display: none; padding: 0 24px 60px; position: relative; z-index: 1;
     }
     .browse-section.active { display: block; }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
     .browse-header {
-      text-align: center;
-      margin-bottom: 24px;
-      padding: 0 24px;
+      display: flex; align-items: center; flex-wrap: wrap; gap: 12px;
+      margin-bottom: 18px;
     }
-    .browse-header h2 {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 8px;
+    .browse-header h2 { font-size: 20px; font-weight: 700; }
+    .views-left {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; color: var(--accent); background: var(--accent-light);
+      padding: 5px 12px; border-radius: 100px; font-weight: 600;
     }
-    .browse-header .views-left {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 16px;
-      background: var(--accent-light);
-      color: var(--accent);
-      border-radius: 100px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-    .browse-header .swipe-hint {
-      display: block;
-      margin-top: 10px;
-      font-size: 13px;
-      color: var(--text-secondary);
+    .views-left.exhausted { color: #ef4444; background: #fef2f2; }
+    .swipe-hint {
+      font-size: 11px; color: var(--text-secondary); width: 100%;
     }
 
-    /* Horizontal scroll container */
+    /* ===== Cards Scroll ===== */
     .cards-scroll {
-      display: flex;
-      gap: 18px;
-      padding: 10px 40px 20px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
+      display: flex; gap: 14px; overflow-x: auto; padding-bottom: 12px;
+      scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
     }
-    .cards-scroll::-webkit-scrollbar { display: none; }
+    .cards-scroll::-webkit-scrollbar { height: 4px; }
+    .cards-scroll::-webkit-scrollbar-track { background: transparent; }
+    .cards-scroll::-webkit-scrollbar-thumb { background: #ddd; border-radius: 4px; }
 
-    /* Individual card */
+    /* ===== Browse Card ===== */
     .browse-card {
-      flex: 0 0 200px;
-      height: 200px;
-      background: var(--card);
-      border: 1.5px solid var(--border);
-      border-radius: 18px;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: var(--shadow-sm);
-      scroll-snap-align: start;
-      position: relative;
-      overflow: hidden;
+      flex: 0 0 200px; height: 200px; background: var(--card);
+      border: 1.5px solid var(--border); border-radius: 18px; padding: 18px;
+      display: flex; flex-direction: column;
+      cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-sm); scroll-snap-align: start;
+      position: relative; overflow: hidden;
     }
     .browse-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--accent);
+      transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--accent);
     }
     .browse-card .card-name {
       font-size: 14px; font-weight: 700; margin-bottom: 4px;
@@ -348,121 +200,154 @@
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .browse-card .card-msg {
-      flex: 1; font-size: 12px; color: var(--text-secondary); line-height: 1.5;
-      overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;
+      flex: 1; font-size: 12px; color: var(--text-secondary);
+      line-height: 1.6; overflow: hidden;
+      display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;
     }
 
-    /* Locked card */
+    /* ===== Blur Masking for Locked Cards ===== */
     .browse-card.locked {
-      cursor: default;
-      background: #f3f4f6;
-      border-color: #e5e7eb;
+      cursor: pointer;
+      background: var(--card);
+      border-color: var(--border);
     }
     .browse-card.locked:hover {
-      transform: none;
-      box-shadow: var(--shadow-sm);
-      border-color: #e5e7eb;
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--accent);
     }
-    .browse-card.locked .card-name,
-    .browse-card.locked .card-school,
-    .browse-card.locked .card-msg {
-      filter: blur(6px);
+    .browse-card.locked .card-content {
+      filter: blur(8px);
+      -webkit-filter: blur(8px);
       user-select: none;
+      -webkit-user-select: none;
+      transition: filter 0.5s ease;
       pointer-events: none;
     }
-    .lock-overlay {
+    .browse-card.locked .lock-hint {
       position: absolute;
       inset: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: rgba(243, 244, 246, 0.5);
-      border-radius: 18px;
       gap: 6px;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
     }
-    .lock-overlay .lock-icon {
-      font-size: 28px;
-      opacity: 0.4;
+    .browse-card.locked:hover .lock-hint {
+      opacity: 1;
     }
-    .lock-overlay .lock-text {
+    .lock-hint .hint-icon {
+      font-size: 24px;
+      opacity: 0.7;
+      transition: transform 0.3s ease;
+    }
+    .browse-card.locked:hover .hint-icon {
+      transform: scale(1.15);
+    }
+    .lock-hint .hint-text {
       font-size: 11px;
-      color: var(--text-secondary);
+      color: var(--accent);
       font-weight: 600;
+      background: rgba(255,255,255,0.85);
+      padding: 3px 10px;
+      border-radius: 6px;
     }
 
-    /* ========== Detail Modal (for viewing a card) ========== */
+    /* Unlocked animation */
+    .browse-card.unlocking .card-content {
+      filter: blur(0px) !important;
+      -webkit-filter: blur(0px) !important;
+    }
+    .browse-card.unlocked .card-content {
+      filter: none;
+      -webkit-filter: none;
+      pointer-events: auto;
+    }
+    .browse-card.unlocked {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-light);
+    }
+
+    /* No views left state */
+    .browse-card.no-views {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+    .browse-card.no-views:hover {
+      transform: none;
+      box-shadow: var(--shadow-sm);
+      border-color: var(--border);
+    }
+    .browse-card.no-views .lock-hint .hint-text {
+      color: #ef4444;
+    }
+
+    /* ===== Detail Overlay ===== */
     .detail-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.25);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
+      position: fixed; inset: 0; background: rgba(0,0,0,0.25);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      z-index: 200; display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
     }
     .detail-overlay.active { opacity: 1; pointer-events: all; }
-
     .detail-card {
-      background: var(--card);
-      border-radius: 24px;
-      padding: 40px;
-      width: 92%;
-      max-width: 480px;
-      max-height: 85vh;
-      overflow-y: auto;
+      background: var(--card); border-radius: 24px; padding: 40px;
+      width: 92%; max-width: 480px; max-height: 85vh; overflow-y: auto;
       box-shadow: 0 20px 50px rgba(0,0,0,0.12);
       transform: translateY(30px) scale(0.96);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0;
     }
     .detail-overlay.active .detail-card { transform: translateY(0) scale(1); opacity: 1; }
-
-    .detail-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; }
-    .detail-header h2 { font-size: 22px; font-weight: 700; }
+    .detail-header {
+      display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px;
+    }
+    .detail-header h2 { font-size: 24px; font-weight: 700; }
     .detail-close {
-      width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
-      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
-      cursor: pointer; transition: all 0.2s; font-size: 18px; color: var(--text-secondary); flex-shrink: 0;
+      width: 36px; height: 36px; border: 1.5px solid var(--border);
+      border-radius: 10px; background: transparent; font-size: 16px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--text-secondary); transition: all 0.2s;
     }
-    .detail-close:hover { background: #fee2e2; color: #ef4444; border-color: #fecaca; }
-
+    .detail-close:hover { background: #f3f4f6; color: var(--text); }
     .detail-row { margin-bottom: 18px; }
-    .detail-row .detail-label {
-      font-size: 12px; font-weight: 600; color: var(--text-secondary);
-      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
+    .detail-label { font-size: 12px; color: var(--text-secondary); font-weight: 600; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .detail-value { font-size: 15px; line-height: 1.6; }
+    .detail-value.message-value {
+      background: var(--bg); padding: 16px; border-radius: 12px;
+      border: 1px solid var(--border); white-space: pre-wrap;
     }
-    .detail-row .detail-value {
-      font-size: 15px; line-height: 1.6; background: var(--bg);
-      padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border); word-break: break-word;
+
+    /* ===== Footer ===== */
+    .footer {
+      text-align: center; padding: 24px; color: var(--text-secondary);
+      font-size: 13px; position: relative; z-index: 1;
     }
-    .detail-row .detail-value.message-value { min-height: 60px; white-space: pre-wrap; }
 
-    /* ========== Footer ========== */
-    .footer { position: relative; z-index: 1; text-align: center; padding: 30px; color: var(--text-secondary); font-size: 13px; }
-
-    @media (max-width: 640px) {
-      .modal-card { padding: 30px 24px; }
-      .cta-btn { padding: 16px 34px; font-size: 15px; }
-      .browse-card { flex: 0 0 170px; height: 170px; padding: 14px; }
-      .cards-scroll { padding: 10px 20px 20px; gap: 14px; }
+    /* ===== Toast notification ===== */
+    .toast {
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: #1a1d23; color: #fff; padding: 12px 24px; border-radius: 12px;
+      font-size: 13px; font-weight: 500; z-index: 999; opacity: 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none; white-space: nowrap;
+    }
+    .toast.show {
+      opacity: 1; transform: translateX(-50%) translateY(0);
     }
   </style>
 </head>
 <body>
-
   <div class="bg-decoration">
     <div class="circle"></div>
     <div class="circle"></div>
     <div class="circle"></div>
   </div>
 
-  <!-- Hero Section -->
   <section class="hero" id="heroSection">
     <div class="hero-badge">
       <span class="dot"></span>
@@ -476,7 +361,6 @@
     </button>
   </section>
 
-  <!-- Browse Section (shown after submit) -->
   <section class="browse-section" id="browseSection">
     <div class="browse-header">
       <h2>看看大家的去向</h2>
@@ -489,7 +373,6 @@
     <div class="cards-scroll" id="cardsScroll"></div>
   </section>
 
-  <!-- Form Modal -->
   <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
     <div class="modal-card">
       <div id="formState">
@@ -522,33 +405,31 @@
           </div>
           <div class="form-group">
             <label>留言 / Message</label>
-            <textarea name="message" placeholder="分享你的未来计划、想法、或任何想说的话..."></textarea>
+            <textarea name="message" placeholder="分享你的未来计划、想法、或任何想说的话..." required></textarea>
           </div>
           <button type="submit" class="submit-btn" id="submitBtn">提交</button>
         </form>
       </div>
       <div class="success-state" id="successState">
-        <div class="success-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
-        </div>
-        <h3>提交成功！</h3>
+        <div class="success-icon">✓</div>
+        <h2>提交成功！</h2>
         <p>感谢你的分享，你的回复已被记录。</p>
-        <span class="browse-hint">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-          向下滚动查看大家的表格
-        </span>
+        <span class="browse-hint">向下滚动查看大家的表格</span>
       </div>
     </div>
   </div>
 
-  <!-- Detail Modal -->
   <div class="detail-overlay" id="detailOverlay" onclick="if(event.target===this)closeDetail()">
     <div class="detail-card" id="detailCard"></div>
   </div>
 
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
   <footer class="footer">Made with ♡</footer>
 
   <script>
+    // ===== State =====
     const overlay = document.getElementById('modalOverlay');
     const formState = document.getElementById('formState');
     const successState = document.getElementById('successState');
@@ -557,10 +438,23 @@
     const heroSection = document.getElementById('heroSection');
 
     let hasSubmitted = false;
-    let viewsRemaining = 5;
-    let viewedIds = new Set();
+    let viewsRemaining = parseInt(localStorage.getItem('viewsRemaining') ?? '5');
+    let viewedIds = new Set(JSON.parse(localStorage.getItem('viewedIds') || '[]'));
     let allSubmissions = [];
 
+    // Update counter on load
+    document.getElementById('viewCount').textContent = viewsRemaining;
+    updateViewsBadge();
+
+    // ===== Toast =====
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    // ===== Modal =====
     function openModal() {
       formState.style.display = 'block';
       successState.classList.remove('active');
@@ -583,20 +477,19 @@
       if (e.target === overlay) closeModal();
     }
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') { closeModal(); closeDetail(); }
-    });
-
+    // ===== Helpers =====
     function getGenderIcon(gender) {
       if (gender.includes('男') || gender.includes('Male')) return '♂';
       if (gender.includes('女') || gender.includes('Female')) return '♀';
-      return '◎';
+      return '⬡';
     }
+
     function getGenderColor(gender) {
       if (gender.includes('男') || gender.includes('Male')) return '#3b82f6';
       if (gender.includes('女') || gender.includes('Female')) return '#ec4899';
       return '#8b5cf6';
     }
+
     function escapeHtml(str) {
       if (!str) return '';
       const div = document.createElement('div');
@@ -604,6 +497,21 @@
       return div.innerHTML;
     }
 
+    function updateViewsBadge() {
+      const badge = document.getElementById('viewsLeft');
+      if (viewsRemaining <= 0) {
+        badge.classList.add('exhausted');
+      } else {
+        badge.classList.remove('exhausted');
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem('viewsRemaining', viewsRemaining);
+      localStorage.setItem('viewedIds', JSON.stringify([...viewedIds]));
+    }
+
+    // ===== Submit =====
     async function handleSubmit(e) {
       e.preventDefault();
       const btn = document.getElementById('submitBtn');
@@ -629,24 +537,22 @@
           hasSubmitted = true;
           formState.style.display = 'none';
           successState.classList.add('active');
-
-          // Show browse section
           heroSection.classList.add('compact');
           browseSection.classList.add('active');
           loadSubmissions();
-
           setTimeout(closeModal, 2500);
         } else {
-          alert(result.error || '提交失败，请重试');
+          alert(result.error);
         }
       } catch (err) {
-        alert('网络错误，请检查连接后重试');
+        alert('提交失败，请重试');
       } finally {
         btn.disabled = false;
         btn.textContent = '提交';
       }
     }
 
+    // ===== Load Submissions =====
     async function loadSubmissions() {
       try {
         const res = await fetch('/api/submissions');
@@ -658,25 +564,31 @@
       }
     }
 
+    // ===== Render Cards with Blur =====
     function renderCards() {
       const container = document.getElementById('cardsScroll');
       container.innerHTML = allSubmissions.map(item => {
         const isViewed = viewedIds.has(item.id);
         const canView = isViewed || viewsRemaining > 0;
-        const locked = !canView;
+        const locked = !isViewed;
+        const noViews = !isViewed && viewsRemaining <= 0;
 
         return `
-          <div class="browse-card ${locked ? 'locked' : ''}" onclick="${locked ? '' : `viewCard(${item.id})`}">
-            <div class="card-name">
-              <span class="gender-icon" style="color:${getGenderColor(item.gender)}">${getGenderIcon(item.gender)}</span>
-              ${escapeHtml(item.nickname)}
+          <div class="browse-card ${locked ? 'locked' : 'unlocked'} ${noViews ? 'no-views' : ''}"
+               onclick="${noViews ? '' : `viewCard(${item.id})`}"
+               data-id="${item.id}">
+            <div class="card-content">
+              <div class="card-name">
+                <span class="gender-icon" style="color:${getGenderColor(item.gender)}">${getGenderIcon(item.gender)}</span>
+                ${escapeHtml(item.nickname)}
+              </div>
+              <div class="card-school">${escapeHtml(item.school)}</div>
+              <div class="card-msg">${escapeHtml(item.message)}</div>
             </div>
-            <div class="card-school">${escapeHtml(item.school)}</div>
-            <div class="card-msg">${escapeHtml(item.message)}</div>
             ${locked ? `
-              <div class="lock-overlay">
-                <span class="lock-icon">🔒</span>
-                <span class="lock-text">查阅次数已用完</span>
+              <div class="lock-hint">
+                <span class="hint-icon">${noViews ? '🔒' : '👆'}</span>
+                <span class="hint-text">${noViews ? '次数已用完' : '点击查看'}</span>
               </div>
             ` : ''}
           </div>
@@ -684,20 +596,55 @@
       }).join('');
     }
 
+    // ===== View Card (Unlock with blur animation) =====
     function viewCard(id) {
       const item = allSubmissions.find(s => s.id === id);
       if (!item) return;
 
-      // Deduct view if not already viewed
-      if (!viewedIds.has(id)) {
-        if (viewsRemaining <= 0) return;
-        viewsRemaining--;
-        viewedIds.add(id);
-        document.getElementById('viewCount').textContent = viewsRemaining;
-        renderCards(); // Re-render to update locked state
+      // If already viewed, go straight to detail
+      if (viewedIds.has(id)) {
+        showDetail(item);
+        return;
       }
 
-      // Show detail modal
+      // Check if views remaining
+      if (viewsRemaining <= 0) {
+        showToast('查阅次数已用完');
+        return;
+      }
+
+      // Deduct a view
+      viewsRemaining--;
+      viewedIds.add(id);
+      document.getElementById('viewCount').textContent = viewsRemaining;
+      updateViewsBadge();
+      saveState();
+
+      // Animate the card unlock
+      const cardEl = document.querySelector(`.browse-card[data-id="${id}"]`);
+      if (cardEl) {
+        cardEl.classList.add('unlocking');
+        // Remove lock hint
+        const hint = cardEl.querySelector('.lock-hint');
+        if (hint) hint.style.opacity = '0';
+
+        setTimeout(() => {
+          cardEl.classList.remove('locked', 'unlocking');
+          cardEl.classList.add('unlocked');
+          if (hint) hint.remove();
+        }, 500);
+      }
+
+      // Re-render remaining cards to update no-views state
+      setTimeout(() => {
+        renderCards();
+        // Show detail after short delay
+        setTimeout(() => showDetail(item), 200);
+      }, 600);
+    }
+
+    // ===== Show Detail Modal =====
+    function showDetail(item) {
       const card = document.getElementById('detailCard');
       card.innerHTML = `
         <div class="detail-header">
@@ -705,15 +652,18 @@
           <button class="detail-close" onclick="closeDetail()">✕</button>
         </div>
         <div class="detail-row">
-          <div class="detail-label">性别 / Gender</div>
-          <div class="detail-value"><span style="color:${getGenderColor(item.gender)}">${getGenderIcon(item.gender)}</span> ${escapeHtml(item.gender)}</div>
+          <div class="detail-label">Gender</div>
+          <div class="detail-value">
+            <span style="color:${getGenderColor(item.gender)}">${getGenderIcon(item.gender)}</span>
+            ${escapeHtml(item.gender)}
+          </div>
         </div>
         <div class="detail-row">
-          <div class="detail-label">学校 / School</div>
+          <div class="detail-label">School</div>
           <div class="detail-value">${escapeHtml(item.school)}</div>
         </div>
         <div class="detail-row">
-          <div class="detail-label">留言 / Message</div>
+          <div class="detail-label">Message</div>
           <div class="detail-value message-value">${escapeHtml(item.message)}</div>
         </div>
       `;
@@ -724,6 +674,14 @@
     function closeDetail() {
       document.getElementById('detailOverlay').classList.remove('active');
       document.body.style.overflow = '';
+    }
+
+    // ===== Auto-load if returning visitor =====
+    if (viewedIds.size > 0) {
+      hasSubmitted = true;
+      heroSection.classList.add('compact');
+      browseSection.classList.add('active');
+      loadSubmissions();
     }
   </script>
 </body>
